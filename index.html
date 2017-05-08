@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/night.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +24,233 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Accessibility on the web</h1>
+				</section>
+				
+				<section>
+					<h1>What is accessibility?</h1>
+					<h3>(A11Y)</h3>
+				</section>
+
+				<section>
+					<h3>Accessibility =  no barriers</h3>
+					<p>The inclusive practice of removing barriers the prevent interaction with, or access to, websites and services, by people (including people with disabilities)</p>
+				</section>
+
+				<section data-background="https://blog.rendia.com/wp-content/uploads/2017/01/Accessibility_1.12.17.jpg" data-background-size="contain">
+					<aside class="notes">
+						<p>Try to provide alternatives as backup for people who may not be able to use your primary method</p>
+					</aside>
+				</section>
+
+				<section data-background="img/a11y-persona.png" data-background-size="contain" data-background-color="white">
+					<aside class="notes">
+						<p>Everyone experiences impairments</p>
+						<p>via <a href="https://www.microsoft.com/en-us/Designinclusive">https://www.microsoft.com/en-us/Design/inclusive</a></p>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Native browser form elements are really good</h3>
+					<button style="font-size: 0.5em">OK</button>
+					<aside class="notes">
+						<p>When building something, study native elements and try to build on top of them as much as possible, rather than reinventing the wheel</p>
+						<p>Custom components should not be <b>less useful</b> than their native alternatives.</p>
+					</aside>
+				</section>
+
+				<section data-background="https://i.ytimg.com/vi/IVZ9bsdzW5o/maxresdefault.jpg" data-background-size="contain">
+					<h3 style="text-shadow: 0 0 20px black, 0 3px 1px rgba(0,0,0,0.3)">Mouse, keyboard, touch, ...?</h3>
+					<aside class="notes">
+						<p>Try using your component with keyboard only, mouse only, and touch device only.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Don't set <code tabindex="0">outline: none</code> without providing a focus state</h3>
+					<aside class="notes">
+						<p>Always add focus styles. You can style focus for invisible elements in plain CSS by using `input:focus + label { ... }`</p>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Place HTML elements in natural reading order</h3>
+					<p>i.e. Title -> Nav -> Content</p>
+					<aside class="notes">
+						<p>When building a page, try to structure the HTML in the order that someone would want to read it if it were linear. e.g. put the nav before the content regardless of which column it is.</p>
+						<p>Think about whether the page would still be usable if you disabled CSS. Would the user still have enough context to understand a UI element?</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Hidden content</h2>
+					<style>
+						.hidden-table {
+							background-color: rgba(255,255,255,0.06);
+						}
+						.hidden-table td:not(:last-child), 
+						.hidden-table th:not(:last-child) {
+							border-right: 1px solid white;
+						}
+						.reveal .hidden-table td, 
+						.reveal .hidden-table th {
+							vertical-align: middle;
+							border-bottom: 1px solid white;
+						}
+						.reveal .hidden-table td {
+							text-align: center;
+						}
+						.ht-visible {
+							color: #81e681;
+						}
+						.ht-hidden {
+							color: #ea8888;
+						}
+					</style>
+					<table class="hidden-table">
+						<tr>
+							<td></td>
+							<th class="ht-visible">Visible visually</th>
+							<th class="ht-hidden">Hidden visually</th>
+						</tr>
+						<tr>
+							<th class="ht-visible">Visible to screen readers</th>
+							<td style="vertical-align: middle; text-align: center; font-size: 1.8em">😀</td>
+							<td>CSS opacity, position etc</td>
+						</tr>
+						<tr>
+							<th class="ht-hidden">Hidden from screen readers</th>
+							<td><code>aria-hidden</code></td>
+							<td><code>display:none</code> + HTML5 <code>hidden</code></td>
+						</tr>
+					</table>
+					<aside class="notes">
+						<p>When hiding something visually only, don't use display:none. Use 'hidden' mixin.</p>
+						<p>When hiding something for everyone, use display:none AND html5 'hidden' attribute.</p>
+						<p>Checkboxes and radios are unusable when hidden with display:none.</p>
+						<p>Screen reader support for hidden content (table):</p>
+						<p><a>http://stevefaulkner.github.io/HTML5accessibility/tests/hidden-2016.html</a></p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>TabIndex</h2>
+					<table>
+						<tr>
+							<th>Positive</th>
+							<td>Controls the specific tabbing order (not recommended)</td>
+						</tr>
+						<tr>
+							<th>Zero</th>
+							<td>Makes an element tabbable and inserts it into the regular tab order</td>
+						</tr>
+						<tr>
+							<th>Negative</th>
+							<td>Makes an element programmatically focusable, but not tabbable</td>
+						</tr>
+					</table>
+					<aside class="notes">
+						<p>An example is moving focus to a summary of errors returned by a form. The summary would typically be located at the start of the form, so you want to draw the attention of screen reader/magnifier users to it, and to position all keyboard-only users at the start of the form so they can begin correcting any errors. You don’t want the error summary itself to be included in the tab order of the page though.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Avoid select boxes and radio buttons</h2>
+					<small><a href="http://www.afb.org/info/accessibility/creating-accessible-websites/accessible-forms/235">afb.org/info/accessibility/creating-accessible-websites/accessible-forms/235</a></small>
+					<small><a href="https://www.youtube.com/watch?v=CUkMCQR4TpY">Burn your select tags - Alice Bartlett</a></small>
+				</section>
+
+				<section>
+					<h1>WAI-ARIA</h1>
+					<small><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics">developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics</a></small>
+					<aside class="notes">
+						<p>Web Accessibility Initiative – Accessible Rich Internet Applications</p>
+						<p>WAI-ARIA is a specification written by the W3C, defining a set of additional HTML attributes that can be applied to elements to provide additional semantics and improve accessibility wherever it is lacking.</p>
+					</aside>
+				</section>
+
+				<section data-background-iframe="http://caniuse.com/#feat=wai-aria">
+					<aside class="notes">
+						<p>Browser support is generally quite good: Browser WAI-ARIA support is at 97% in the UK</p>
+					</aside>
+				</section>
+
+				<section data-background="img/aria-support.png" data-background-size="contain" data-background-color="white">
+					<aside class="notes">
+						<p>Screenreader support for ARIA features isn't quite at this level, but the most popular screenreaders are getting there. You can get an idea of support levels by looking at Powermapper's WAI-ARIA Screen reader compatibility article.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Roles, Properties, &amp; States</h2>
+					<aside class="notes">
+						<p>There are three main features defined in the spec: Roles, Properties, and States.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Roles</h1>
+					<p>presentation, navigation, tabgroup, tab, etc.</p>
+					<small><a href="http://www.webteacher.ws/2010/10/14/aria-roles-101/">webteacher.ws/2010/10/14/aria-roles-101/</a></small>
+					<aside class="notes">
+						<p>These define what an element is or does. Many of these are so-called landmark roles, which largely duplicate the semantic value of HTML5 structural elements e.g. role="navigation" (&lt;nav&gt;) or role="complementary" (&lt;aside&gt;), but there are also others that describe different pages structures, such as role="banner", role="search", role="tabgroup", role="tab", etc., which are commonly found in UIs.</p>
+						<p>If you use native elements then you don't often need roles. Use native elements if you can.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h1>Properties</h1>
+					<p>aria-label, aria-live, aria-describedby, aria-required, etc.</p>
+					<aside class="notes">
+						These define properties of elements, which can be used to give them extra meaning or semantics. As an example, aria-required="true" specifies that a form input needs to be be filled in to be valid, whereas aria-labelledby="label" allows you to put an ID on an element, then reference it as being the label for anything else on the page, including multiple elements, which is not possible using &lt;label for="input"&gt;. As an example, you could use aria-labelledby to specify that a key description contained in a &lt;div&gt; is the label for multiple table cells, or you could use it as an alternative to image alt text — specify existing information on the page as an image's alt text, rather than having to repeat it inside the alt attribute. You can see an example of this at Text alternatives.
+					</aside>
+				</section>
+
+				<section>
+					<h2>aria-live</h2>
+					<table>
+						<tr><th>off</th> <td>Default. Updates should not be announced.</td></tr>
+						<tr><th>polite</th> <td>Updates should only be announced if the user is idle.</td></tr>
+						<tr><th>assertive</th> <td>Updates should be announced to the user as soon as possible.</td></tr>
+						<tr><th>rude</th> <td>Updates should be announced immediately, interrupting the user if necessary.</td></tr>
+					</table>
+				</section>
+
+				<section>
+					<h1>States</h1>
+					<p>aria-disabled, aria-hidden, aria-selected, aria-checked, etc.</p>
+					<aside class="notes">
+						Special properties that define the current conditions of elements, such as aria-disabled="true", which specifies to a screenreader that a form input is currently disabled. States differ from properties in that properties don't change throughout the lifecycle of an app, whereas states can change, generally programmatically via JavaScript.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Don't slap ARIA tags on everything</h3>
+					<small><a href="http://simplyaccessible.com/article/danger-aria-tabs/">simplyaccessible.com/article/danger-aria-tabs/</a></small>
+					<aside class="notes">
+						<p>You should only use WAI-ARIA when you need to! Ideally, you should always use native HTML features to provide the semantics required by screenreaders to tell their users what is going on. Sometimes this isn't possible, either because you have limited control over the code, or because you are creating something complex that doesn't have an easy HTML element to implement it. In such cases, WAI-ARIA can be a valuable accessibility enhancing tool.</p>
+						<p>Also, ARIA attributes aren't always helpful. e.g. Tabs</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Screenreaders</h2>
+					<aside class="notes">
+						<p>There are many combinations of operating system, browser, and screenreader to consider.</p>
+					</aside>
+				</section>
+
+				<section>
+					<img class="plain" src="http://media.idownloadblog.com/wp-content/uploads/2015/05/VoiceOver-for-OS-X-icon-small.png" alt="VoiceOver logo">
+					<h1>VoiceOver</h1>
+					<small><a href="https://help.apple.com/voiceover/info/guide/">help.apple.com/voiceover/info/guide/</a></small>
+					<p style="opacity: 0">Hello everybody! I am invisible text. I have been hidden using opacity: 0</p>
+				</section>
+
+				<section data-background="http://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2015/05/15/102682735-3127-flag.1910x1000.png">
+					<h1>Chur</h1>
+				</section>
 			</div>
 		</div>
 
@@ -37,6 +262,7 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				history: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
