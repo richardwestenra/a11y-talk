@@ -20,40 +20,109 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+		<style>
+			.reveal section img.plain {
+				background: none;
+				max-width: 300px;
+				height: auto;
+			}
+			.hidden-table {
+				background-color: rgba(255,255,255,0.06);
+			}
+			.hidden-table td:not(:last-child), 
+			.hidden-table th:not(:last-child) {
+				border-right: 1px solid white;
+			}
+			.reveal .hidden-table td, 
+			.reveal .hidden-table th {
+				vertical-align: middle;
+				border-bottom: 1px solid white;
+			}
+			.reveal .hidden-table td {
+				text-align: center;
+			}
+			.ht-visible {
+				color: #81e681;
+			}
+			.ht-hidden {
+				color: #ea8888;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<h1>Accessibility on the web</h1>
+					<img src="img/AccessibilityIcon.svg" alt="Accessibility icon" class="plain">
+					<h1 style="font-size:3.2em">Accessibility on the web</h1>
 				</section>
 				
 				<section>
 					<h1>What is accessibility?</h1>
 					<h3>(A11Y)</h3>
+					<aside class="notes">
+						numeronym
+					</aside>
 				</section>
 
 				<section>
-					<h3>Accessibility =  no barriers</h3>
+					<h3>Accessibility = no barriers</h3>
 					<p>The inclusive practice of removing barriers the prevent interaction with, or access to, websites and services, by people (including people with disabilities)</p>
+					<p>Inclusive by design. Don't design for your concept of ideal human. Humans are diverse and good design accounts for this.</p>
+					<p>Disabilities aren't in the person, they're created by the things we design which don't cater to the full range of human experience.</p>
 				</section>
 
-				<section data-background="https://blog.rendia.com/wp-content/uploads/2017/01/Accessibility_1.12.17.jpg" data-background-size="contain">
+				<section>
+					<h1>1 in 5</h1>
+					<h2>people are disabled</h2>
+				</section>
+
+				<section data-background="img/a11y-types.jpg" data-background-size="contain" data-background-color="#D0D0D0">
 					<aside class="notes">
 						<p>Try to provide alternatives as backup for people who may not be able to use your primary method</p>
+						<p>Not just blind people. Example: Mild motor impairment: Struggle to use a mouse with fine control</p>
 					</aside>
 				</section>
 
 				<section data-background="img/a11y-persona.png" data-background-size="contain" data-background-color="white">
 					<aside class="notes">
 						<p>Everyone experiences impairments</p>
-						<p>via <a href="https://www.microsoft.com/en-us/Designinclusive">https://www.microsoft.com/en-us/Design/inclusive</a></p>
+						<p>Example: Someone presenting a talk, or a drunk person, or someone on the phone</p>
+						<p><small>via <a href="https://www.microsoft.com/en-us/Designinclusive">Microsoft</a></small></p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Equality Act 2010</h2>
+					<p>We have a legal requirement to provide equal access to people with disabilities</p>
+					<small><a href="https://www.gov.uk/guidance/equality-act-2010-guidance">gov.uk/guidance/equality-act-2010-guidance</a></small>
+					<aside class="notes">
+						<p>Easier to build in from the start than have to implement it later.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Design considerations</h2>
+					<ul>
+						<li>Ensure text has good legibility and readability</li>
+						<li>Sufficient text size, contrast, line height, line length&hellip;</li>
+						<li>Ensure information is not communicated by shape, colour, or location alone</li>
+						<li>Provide appropriate text alternative for images</li>
+					</ul>
+					<p><small><a href="https://www.slideshare.net/aduggin/accessibility-for-content-designers-63329376">GDS: Accessibility for content designers</a></small></p>
+				</section>
+
+				<section data-background-color="#1D303B">
+					<img style="margin: 1.5em" class="plain" src="img/toggle.png" alt="Toggle screenshot">
+					<img style="margin: 1.5em" class="plain" src="img/toggle-redux.png" alt="Checkboxes screenshot">
+					<aside class="notes">
+						<p>Also: We use visual design to communicate how to use an interface. We need to ensure that our interfaces are intuitive for people who can't see them too. Base interfaces on familiar patterns. Example: Toggle is a checkbox.</p>
 					</aside>
 				</section>
 
 				<section>
 					<h3>Native browser form elements are really good</h3>
-					<button style="font-size: 0.5em">OK</button>
+					<button style="font-size: 0.5em; border-radius: 0.15em; padding: 0.3em 0.7em;">OK</button>
 					<aside class="notes">
 						<p>When building something, study native elements and try to build on top of them as much as possible, rather than reinventing the wheel</p>
 						<p>Custom components should not be <b>less useful</b> than their native alternatives.</p>
@@ -85,29 +154,6 @@
 
 				<section>
 					<h2>Hidden content</h2>
-					<style>
-						.hidden-table {
-							background-color: rgba(255,255,255,0.06);
-						}
-						.hidden-table td:not(:last-child), 
-						.hidden-table th:not(:last-child) {
-							border-right: 1px solid white;
-						}
-						.reveal .hidden-table td, 
-						.reveal .hidden-table th {
-							vertical-align: middle;
-							border-bottom: 1px solid white;
-						}
-						.reveal .hidden-table td {
-							text-align: center;
-						}
-						.ht-visible {
-							color: #81e681;
-						}
-						.ht-hidden {
-							color: #ea8888;
-						}
-					</style>
 					<table class="hidden-table">
 						<tr>
 							<td></td>
@@ -131,6 +177,11 @@
 						<p>Checkboxes and radios are unusable when hidden with display:none.</p>
 						<p>Screen reader support for hidden content (table):</p>
 						<p><a>http://stevefaulkner.github.io/HTML5accessibility/tests/hidden-2016.html</a></p>
+					</aside>
+				</section>
+
+				<section data-background="img/hidden.png" data-background-size="contain" data-background-color="white">
+					<aside class="notes">
 					</aside>
 				</section>
 
@@ -170,9 +221,9 @@
 					</aside>
 				</section>
 
-				<section data-background-iframe="http://caniuse.com/#feat=wai-aria">
+				<section data-background="img/caniuse.png">
 					<aside class="notes">
-						<p>Browser support is generally quite good: Browser WAI-ARIA support is at 97% in the UK</p>
+						<p>Browser support for WAI-ARIA is generally quite good: Support is at 97% in the UK</p>
 					</aside>
 				</section>
 
@@ -191,7 +242,7 @@
 
 				<section>
 					<h1>Roles</h1>
-					<p>presentation, navigation, tabgroup, tab, etc.</p>
+					<p>e.g. presentation, navigation, tabgroup, tab, etc.</p>
 					<small><a href="http://www.webteacher.ws/2010/10/14/aria-roles-101/">webteacher.ws/2010/10/14/aria-roles-101/</a></small>
 					<aside class="notes">
 						<p>These define what an element is or does. Many of these are so-called landmark roles, which largely duplicate the semantic value of HTML5 structural elements e.g. role="navigation" (&lt;nav&gt;) or role="complementary" (&lt;aside&gt;), but there are also others that describe different pages structures, such as role="banner", role="search", role="tabgroup", role="tab", etc., which are commonly found in UIs.</p>
@@ -201,7 +252,7 @@
 
 				<section>
 					<h1>Properties</h1>
-					<p>aria-label, aria-live, aria-describedby, aria-required, etc.</p>
+					<p>e.g. aria-label, aria-live, aria-describedby, aria-required, etc.</p>
 					<aside class="notes">
 						These define properties of elements, which can be used to give them extra meaning or semantics. As an example, aria-required="true" specifies that a form input needs to be be filled in to be valid, whereas aria-labelledby="label" allows you to put an ID on an element, then reference it as being the label for anything else on the page, including multiple elements, which is not possible using &lt;label for="input"&gt;. As an example, you could use aria-labelledby to specify that a key description contained in a &lt;div&gt; is the label for multiple table cells, or you could use it as an alternative to image alt text — specify existing information on the page as an image's alt text, rather than having to repeat it inside the alt attribute. You can see an example of this at Text alternatives.
 					</aside>
@@ -219,7 +270,7 @@
 
 				<section>
 					<h1>States</h1>
-					<p>aria-disabled, aria-hidden, aria-selected, aria-checked, etc.</p>
+					<p>e.g. aria-hidden, aria-selected, aria-checked, aria-disabled, etc.</p>
 					<aside class="notes">
 						Special properties that define the current conditions of elements, such as aria-disabled="true", which specifies to a screenreader that a form input is currently disabled. States differ from properties in that properties don't change throughout the lifecycle of an app, whereas states can change, generally programmatically via JavaScript.
 					</aside>
@@ -246,6 +297,18 @@
 					<h1>VoiceOver</h1>
 					<small><a href="https://help.apple.com/voiceover/info/guide/">help.apple.com/voiceover/info/guide/</a></small>
 					<p style="opacity: 0">Hello everybody! I am invisible text. I have been hidden using opacity: 0</p>
+				</section>
+
+				<section>
+					<h2>Links</h2>
+					<ul>
+						<li><a href="https://www.slideshare.net/aduggin/accessibility-for-content-designers-63329376">GDS: Accessibility for content designers (slide deck)</a></li>
+						<li><a href="https://www.microsoft.com/en-us/Design/inclusive">Inclusive Design at Microsoft</a></small></li>
+						<li><a href="http://www.webteacher.ws/2010/10/14/aria-roles-101/">Aria Roles 101</a></li>
+						<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics">MDN: WAI-ARIA Basics</a></li>
+						<li><a href="https://help.apple.com/voiceover/info/guide/">VoiceOver Guide</a></li>
+						<li><a href="http://stevefaulkner.github.io/HTML5accessibility/tests/hidden-2016.html">Screen reader support for hidden content (table)</a></li>
+					</ul>
 				</section>
 
 				<section data-background="http://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2015/05/15/102682735-3127-flag.1910x1000.png">
